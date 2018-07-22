@@ -1,0 +1,12 @@
+img{
+    width: 100px;
+}
+
+#res{
+    display: flex;
+    background-color: lime;
+}
+.card-unit{
+    border: 1px solid blue;
+}
+
