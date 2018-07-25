@@ -55,11 +55,13 @@
 */
 const form = document.querySelector('.js-form');
 const card = document.querySelector('#js-card');
-const filter = { size: [], color: [], release_date: [] };
+let filter = { size: [], color: [], release_date: [] };
 const output = document.querySelector('#res');
 const inputs =Array.from(document.querySelectorAll('input'));
 const btnFtr = document.querySelector('.js-btn-ftr');
 const btnClr = document.querySelector('.js-btn-clr');
+let filtered;
+let test;
 const laptops = [
     {
       size: 13,
@@ -154,18 +156,25 @@ const laptops = [
   ];
 
 
-  form.addEventListener('click', addCheck);
+  form.addEventListener('click', toggleCheck);
   form.addEventListener('submit', renderPC);
+  // document.addEventListener('click', close);
 
 
-  function addCheck(event){
+  function toggleCheck(event){
+      if(!event.target.hasAttribute('checked')){
       event.target.setAttribute('checked', true);
+    } else {
+      event.target.removeAttribute('checked')
+    }
+    console.log(event.target);
   }
 
   function renderPC(event){
        
     event.preventDefault();
-    form.reset();
+    filter = { size: [], color: [], release_date: [] };
+    // form.reset();
      inputs.forEach(item=>{
         //  console.log(item.setAttribute('checked', true));
         //  console.log(item.hasAttribute('checked'));
@@ -176,18 +185,13 @@ const laptops = [
             console.log (typeof(item.getAttribute('name')));
             filter[`${item.getAttribute('name')}`].push(item.getAttribute('value'));
         }
-        
-    
      }) 
-    let filtered = laptops;
-    
-    let test = Object.values(filter).filter(item=>item.length!==0);
+    filtered = laptops;    
+    test = Object.values(filter).filter(item=>item.length!==0);
     console.log("test.length", test.length);
-
     if (test.length===0) {
         filtered = []
     }
-
     for (key in filter){
 
         if (filter[key].length){
@@ -217,4 +221,14 @@ const laptops = [
       output.innerHTML = markup;
   }
 
-  
+  // function clear(event){
+    // event.preventDefault();
+    // console.log('close', event.target===btnClr);
+    // filter = { size: [], color: [], release_date: [] };
+  //   inputs.forEach(item=>{
+  //         item.removeAttribute('checked');   
+  //     }
+  //  ) 
+
+      // output.innerHTML = '';
+  // }
